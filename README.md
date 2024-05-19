@@ -1,0 +1,2 @@
+# astrolocale
+ i18n
