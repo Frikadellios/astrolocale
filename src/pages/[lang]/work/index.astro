@@ -16,19 +16,14 @@ const work = await Promise.all(
   })
 )
 
-function formatWorkDate(input: Date | string) {
-  if (typeof input === "string") return input
+import FormattedDate from '@/components/FormattedDate.astro';
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
-  const month = input.toLocaleDateString("en-US", {
-    month: "short",
-  })
-
-  const year = new Date(input).getFullYear()
-  return `${month} ${year}`
-}
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
+<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION} lang={lang}>
   <TopLayout>
     <div class="animate page-heading">
       {WORK.TITLE}
@@ -40,7 +35,7 @@ function formatWorkDate(input: Date | string) {
         work.map((entry) => (
           <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
             <div class="text-sm uppercase mb-4">
-              {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
+              {FormattedDate({ date: new Date(entry.data.dateStart) })} - {FormattedDate({ date: new Date(entry.data.dateEnd) })}
             </div>
             <div class="text-black dark:text-white font-semibold">
               {entry.data.company}

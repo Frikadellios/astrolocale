@@ -1,5 +1,5 @@
-import type { Locale } from './i18n'
-
+import { type Locale, locales } from './i18n'
+export const currentLocale = locales[0]
 interface TypeUIStrings {
   [key: string]: {
     [locale in Locale]: string | undefined // If we'd enforce keys to be any of the already added language codes, it'd be impossible to add new locale strings before enabling that locale site-wide.

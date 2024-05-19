@@ -1,7 +1,7 @@
 ---
-import Page from '@layouts/Page.astro'
-import type { Person } from "@utilities/people"
-import type { CommonFrontmatter } from '@src/types'
+import Page from './Page.astro'
+import type { Person } from "@/utilities/people"
+import type { CommonFrontmatter } from '../types'
 export interface PersonFrontmatter extends CommonFrontmatter{
 	person: Person
 }
@@ -27,5 +27,5 @@ const contactDataAreAvailable = person.mail || person.mastodon
 		</table>
 	}
 
-	<p>{person.description[Astro.currentLocale]}</p>
+	<p>{person.description?.[Astro.currentLocale]}</p>
 </Page>

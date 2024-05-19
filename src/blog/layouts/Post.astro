@@ -1,15 +1,18 @@
 ---
-import Byline from "@/components/Byline.astro";
-import PostTags from "@/components/PostTags.astro";
-import MainI18n from "@/components/MainI18n.astro";
-import type { CollectionEntry } from "astro:content";
+import type { CollectionEntry } from 'astro:content'
+import Byline from '@/components/Byline.astro'
+import MainI18n from '@/components/MainI18n.astro'
+import PostTags from '@/components/PostTags.astro'
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<'blog'>['data']
 
-
- const frontmatter = Astro.props,
+const frontmatter = Astro.props,
   { title, pubDate, updatedDate, previewImage, tags, author } = frontmatter,
-  realTags: string[] = tags ? tags.map((tag: any) => tag.slug).filter((slug: string) => slug !== 'other') : [];
+  realTags: string[] = tags
+    ? tags
+        .map((tag: any) => tag.slug)
+        .filter((slug: string) => slug !== 'other')
+    : []
 ---
 
 <MainI18n {frontmatter} collection="blog">

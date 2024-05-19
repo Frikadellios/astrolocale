@@ -30,13 +30,13 @@ const
 	{frontmatter, collection} = Astro.props,
 	reference: string = frontmatter?.reference || '';
 
-let translationsAvailable = []
+let translationsAvailable: { frontmatter: CommonFrontmatter; url: string }[] = []
 let translationLinks: TranslationLink[] = []
 
 if (reference){
 	if (collection === 'pages'){
-		// The current page is not part of a collection
-		const allPages = await Astro.glob('../pages/**/*.{md,mdx}')
+		 // The current page is not part of a collection
+		const allPages = await Astro.glob('../pages/**/*.{md,mdx}') as { frontmatter: CommonFrontmatter; url: string }[];
 		translationsAvailable = allPages
 			.filter(({ frontmatter }) => {
 				return frontmatter.reference !== null && frontmatter.reference === reference
@@ -52,19 +52,18 @@ if (reference){
 			const link = {
 				absoluteURL: absoluteURL,
 				relativeURL: relativeURL,
-				locale: locale,
-				label: uiStrings[locale][Astro.currentLocale]
+				locale: locale || 'default-locale', // Provide a default locale if undefined
+				label: (uiStrings[locale || 'default-locale'] ? uiStrings[locale || 'default-locale'][Astro.currentLocale] : undefined) || 'default-label' // Provide a default label if undefined
 			}
 			translationLinks.push(link)
 		}
 	}
 	else{
 		// The current page is part of a collection
-		const translationsSlugs = (await getPublishedPosts('', collection, ''))
+		const translationsSlugs = (await getPublishedPosts('blog', collection, ''))
 			.filter((post)=> post.data.reference === reference)
 			.filter(function(post){ return getLocaleFromUrl(post.slug) !== Astro.currentLocale })
 			.map(post => (post.slug))
-
 		for (const slug of translationsSlugs){
 			const locale = getLocaleFromUrl(slug)
 			const link = {
@@ -97,4 +96,5 @@ if (reference){
 				<TranslationLinks {translationLinks} />
 			</footer>
 		}
+</Html>
 </Html>

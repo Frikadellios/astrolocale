@@ -1,8 +1,8 @@
 ---
-import { LANGUAGES, LOCALES } from "./i18n"
+import { LANGUAGES, LOCALES } from './i18n'
 const url = Astro.url
 const origin = url.origin
-const [, lang, ...slug] = url.pathname.split("/")
+const [, lang, ...slug] = url.pathname.split('/')
 ---
 
 <!-- OPTION 01 -->{

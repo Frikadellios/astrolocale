@@ -4,16 +4,16 @@
 // If there are translations of the page, the TranslationsBanner is shown.
 // Because astro.glob() and getCollections are only available inside .astro files, the logic can't be easily moved to utility function.
 // The benefit of having the logic inside this component is that the translations only need to be searched once for all the places where they are used (head and TranslationsBanner).
-import {site} from '@src/consts'
-import { getLocaleFromUrl } from '@i18n/utilities';
-import { uiStrings } from '@i18n/uiStrings';
-import Html from "@components/Html.astro";
-import TranslationsBanner from "@components/TranslationsBanner.astro";
-import TranslationLinks from "@components/TranslationLinks.astro";
-import Header from "@components/Header.astro";
-import { getAbsolutePostPath, getRelativePostPath } from '@utilities/getPostPath';
-import getPublishedPosts from '@utilities/getPublishedPosts';
-import type { CommonFrontmatter } from '@src/types';
+import {site} from '@/site'
+import { getLocaleFromUrl } from '@/i18n/utilities';
+import { uiStrings } from '@/i18n/uiStrings';
+import Html from "@/blog/components/Html.astro";
+import TranslationsBanner from "@/blog/components/TranslationsBanner.astro";
+import TranslationLinks from "@/blog/components/TranslationLinks.astro";
+import Header from "@/blog/components/Header.astro";
+import { getAbsolutePostPath, getRelativePostPath } from '@/utilities/getPostPath';
+import getPublishedPosts from '@/utilities/getPublishedPosts';
+import type { CommonFrontmatter } from '@/blog/types';
 
 interface Props {
 	frontmatter: CommonFrontmatter,
@@ -30,7 +30,7 @@ const
 	{frontmatter, collection} = Astro.props,
 	reference: string = frontmatter?.reference || '';
 
-let translationsAvailable = []
+let translationsAvailable: Record<string, any>[] = []
 let translationLinks: TranslationLink[] = []
 
 if (reference){
@@ -38,9 +38,7 @@ if (reference){
 		// The current page is not part of a collection
 		const allPages = await Astro.glob('../pages/**/*.{md,mdx}')
 		translationsAvailable = allPages
-			.filter(({ frontmatter }) => {
-				return frontmatter.reference !== null && frontmatter.reference === reference
-			})
+			.filter(({ frontmatter }) => frontmatter?.reference === reference)
 			.filter(page => {
 				return getLocaleFromUrl(page.url) !== Astro.currentLocale
 			})
@@ -49,13 +47,24 @@ if (reference){
 				locale = getLocaleFromUrl(translation.url),
 				relativeURL = translation.url || '/',
 				absoluteURL = `${site}${relativeURL}`;
+			let label = 'Label not found';
+			if (locale && Astro.currentLocale && uiStrings[locale]?.[Astro.currentLocale]) {
+				label = uiStrings[locale][Astro.currentLocale];
+			}
 			const link = {
 				absoluteURL: absoluteURL,
 				relativeURL: relativeURL,
 				locale: locale,
-				label: uiStrings[locale][Astro.currentLocale]
+				label: label
 			}
-			translationLinks.push(link)
+			if (locale) {
+				translationLinks.push({
+					absoluteURL: absoluteURL,
+					relativeURL: relativeURL,
+					locale: locale || '', // Ensure locale is never undefined
+					label: label
+				})
+			}
 		}
 	}
 	else{
@@ -97,4 +106,7 @@ if (reference){
 				<TranslationLinks {translationLinks} />
 			</footer>
 		}
+</Html>
+</Html>
+</Html>
 </Html>

@@ -1,10 +1,10 @@
 ---
 interface Props {
-	date: Date;
-	includeTime?: boolean;
+  date: Date
+  includeTime?: boolean
 }
-const { date, includeTime } = Astro.props;
-const lang = Astro.currentLocale;
+const { date, includeTime } = Astro.props
+const lang = Astro.currentLocale
 ---
 <time datetime={date.toISOString()}>
 	{

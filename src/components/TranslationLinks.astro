@@ -1,14 +1,14 @@
 ---
-import { uiStrings } from '@i18n/uiStrings';
-import type { TranslationLink } from './MainI18n.astro';
-
+import { uiStrings } from '@/i18n/uiStrings'
+import type { TranslationLink } from './MainI18n.astro'
+import { } from '@/i18n/i18n'
 interface Props {
-	translationLinks: TranslationLink[]
+  translationLinks: TranslationLink[]
 }
 
-const
-	{ translationLinks } = Astro.props,
-	pageTranslationsAvailableIn = `${uiStrings.pageTranslationsAvailableIn[ Astro.currentLocale]} `;
+const { translationLinks } = Astro.props;
+const lang = Astro.currentLocale;
+const pageTranslationsAvailableIn = uiStrings.pageTranslationsAvailableIn[lang as keyof typeof uiStrings.pageTranslationsAvailableIn] || '';
 ---
 { pageTranslationsAvailableIn &&
 	<p>

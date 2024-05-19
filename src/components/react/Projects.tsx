@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content"
 import { useEffect, useState } from "react"
-import ArrowCard from "@/components/react/ArrowCard"
+import ArrowCard from "@/components/react/ArrowCard.astro"
 import { cn } from "@/lib/utils"
 
 type Props = {

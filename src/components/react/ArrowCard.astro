@@ -1,14 +1,13 @@
 ---
 
 import type { CollectionEntry } from 'astro:content'
-import FormattedDate from '@/components/FormattedDate.astro';
+import FormattedDate from '@/components/FormattedDate.astro'
 
 type Props = {
   entry: CollectionEntry<'blog'> | CollectionEntry<'projects'>
   pill?: boolean
 }
 const ArrowCardComponent = ({ entry, pill }: Props) => Astro.props
-
 ---
 
     <a

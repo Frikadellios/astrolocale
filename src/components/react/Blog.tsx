@@ -1,5 +1,5 @@
 import type { CollectionEntry } from 'astro:content'
-import ArrowCard from '@/components/react/ArrowCard'
+import ArrowCard from '@/components/react/ArrowCard.astro'
 import { cn } from '@/lib/utils'
 import { useState, useEffect } from 'react'
 
@@ -16,7 +16,7 @@ export default function Blog({ data, tags }: Props) {
     const filteredPosts = data.filter(entry =>
       Array.from(filter).every(value =>
         entry.data.tags?.some(
-          (tag: string) => tag.toLowerCase() === String(value).toLowerCase(),
+          (tag) => tag.toLowerCase() === String(value).toLowerCase(),
         ),
       ),
     );

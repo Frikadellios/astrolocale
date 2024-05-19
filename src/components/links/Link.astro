@@ -1,12 +1,12 @@
 ---
-import type {HTMLAttributes} from "astro/types";
+import type { HTMLAttributes } from 'astro/types'
 
 type Props = HTMLAttributes<'a'>
 
-const {href, ...rest} = Astro.props;
+const { href, ...rest } = Astro.props
 
-const isInternalLink = href && !href.toString().startsWith('http');
-const isAnchorLink = href && href.toString().startsWith('#');
+const isInternalLink = href && !href.toString().startsWith('http')
+const isAnchorLink = href && href.toString().startsWith('#')
 ---
 
 {

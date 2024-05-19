@@ -1,8 +1,8 @@
 ---
-import Page from '@layouts/Page.astro'
-import { getPostsByTag } from '@utilities/tags';
-import { getRelativePostPath } from '@utilities/getPostPath';
-import type { CommonFrontmatter } from '@src/types';
+import Page from '@/layouts/Page.astro'
+import { getPostsByTag } from '@/utilities/tags';
+import { getRelativePostPath } from '@/utilities/getPostPath';
+import type { CommonFrontmatter } from '@/blog/types';
 
 interface Frontmatter extends CommonFrontmatter{
   tag?: string,
@@ -11,9 +11,9 @@ interface Frontmatter extends CommonFrontmatter{
 interface Props{
   frontmatter: Frontmatter,
 }
-
-const {frontmatter } = Astro.props;
-const filteredPosts = await getPostsByTag('blog', frontmatter.tag, Astro.currentLocale);
+const { frontmatter } = Astro.props;
+const tag = frontmatter.tag || 'default-tag'; // Provide a default tag if undefined
+const filteredPosts = await getPostsByTag('blog', tag, Astro.currentLocale);
 ---
 
 <Page {frontmatter}>

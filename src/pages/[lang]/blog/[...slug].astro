@@ -3,8 +3,8 @@ import { type CollectionEntry, getCollection } from "astro:content"
 import PageLayout from "@/layouts/PageLayout.astro"
 import TopLayout from "@/layouts/TopLayout.astro"
 import BottomLayout from "@/layouts/BottomLayout.astro"
-import { formatDate, readingTime } from "@/lib/utils"
-
+import FormattedDate from "@/components/FormattedDate.astro"
+import { readTime } from "@/lib/readTime.mjs"
 // Define the type for the props expected by the page
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">
@@ -28,24 +28,28 @@ if (!props.entry) {
 
 const { entry } = props;
 const { collection, data, body } = entry;
-const { title, summary, date } = data;
+const { title, description, pubDate } = data;
 const demoUrl = collection === "projects" ? data.demoUrl : null;
 const repoUrl = collection === "projects" ? data.repoUrl : null;
-const { Content } = await entry.render()
+const { Content, remarkPluginFrontmatter } = await entry.render()
 
 // Get the next and prev entries (modulo to wrap index)
 const items = (await getCollection(collection))
   .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 const index = items.findIndex(x => x.slug === entry.slug)
 const prev = items[(index - 1 + items.length) % items.length]
 const next = items[(index + 1) % items.length]
+
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 
 
 
-<PageLayout title={title} description={summary}>
+<PageLayout title={title} description={description} lang={lang}>
   <TopLayout>
     <div class="animate">
       <div>
@@ -69,7 +73,7 @@ const next = items[(index + 1) % items.length]
             <svg class="size-5 stroke-current">
               <use href="/ui.svg#book-open"/>
             </svg>
-            {readingTime(body)}
+            {remarkPluginFrontmatter.minutesRead(body)}
           </div>
         </div>
         <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">

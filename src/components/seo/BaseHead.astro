@@ -1,15 +1,15 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import { ViewTransitions } from "astro:transitions";
+import { ViewTransitions } from 'astro:transitions'
 import '@/styles/global.css'
 import {
   getLocalizedPathname,
   pathNameIsInLanguage,
-ui,
+  type ui,
 } from '@/i18n/utils'
-import '@/styles/global.css'
-import { DEFAULT_LANG, LANGUAGES } from "@/i18n/i18n";
+import { DEFAULT_LANG, LANGUAGES } from '@/i18n/i18n'
+import { defaultLang } from '@/i18n/ui'
 
 interface Props {
   title: string
@@ -18,11 +18,10 @@ interface Props {
   lang: string
 }
 
-const canonicalPathname = pathNameIsInLanguage(Astro.url.pathname, DEFAULT_LANG)
+const canonicalPathname = pathNameIsInLanguage(Astro.url.pathname, defaultLang)
   ? Astro.url.pathname
-  : getLocalizedPathname(Astro.url.pathname, DEFAULT_LANG)
+  : getLocalizedPathname(Astro.url.pathname, defaultLang)
 const canonicalURL = new URL(canonicalPathname, Astro.site)
-
 const { title, description, image = '/og.png' } = Astro.props
 
 const alternateLang = Object.keys(LANGUAGES)

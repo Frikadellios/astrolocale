@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content"
 import Fuse from "fuse.js"
-import ArrowCard from "@/components/react/ArrowCard"
+import ArrowCard from "@/components/react/ArrowCard.astro"
 import type { FormEvent } from "react"
 
 type Props = {

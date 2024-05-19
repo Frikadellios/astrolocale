@@ -1,7 +1,5 @@
 export type Locale = 'en' | 'de' | 'es' | 'fr' | 'ru' | 'uk' | 'pl' | string
 
-
-
 interface Fallback {
   [key: string]: string
 }
@@ -13,34 +11,32 @@ type PathNames = {
 
 export const defaultLocale: string = 'en'
 
-
 export const LANGUAGES = {
-    en: 'English',
-    es: 'Español',
-    fr: 'Français',
-    uk: 'Українська',
-    ru: 'Русский',
-    de: 'German',
-    pl: 'Polski',
-  }
-  
-  export const LOCALES = {
-    en: 'en-GB',
-    es: 'es-ES',
-    fr: 'fr-FR',
-    uk: 'uk-UA',
-    ru: 'ru-UA',
-    de: 'de-DE',
-    pl: 'pl-PL',
-  }
+  en: 'English',
+  es: 'Español',
+  fr: 'Français',
+  uk: 'Українська',
+  ru: 'Русский',
+  de: 'German',
+  pl: 'Polski',
+}
 
+export const LOCALES = {
+  en: 'en-GB',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  uk: 'uk-UA',
+  ru: 'ru-UA',
+  de: 'de-DE',
+  pl: 'pl-PL',
+}
 
-export const locales = ['en', 'de', 'fr', 'uk', 'ru', 'es', 'pl' ]
+export const locales = ['en', 'de', 'fr', 'uk', 'ru', 'es', 'pl']
 export const LANGUAGES_ARRAY = Object.keys(LANGUAGES)
 export const DEFAULT_LANGUAGE = 'en'
-export const DEFAULT_LOCALES = 'en'
-export const DEFAULT_LANG = 'en'
-
+export const DEFAULT_LOCALES = 'en-GB'
+export const DEFAULT_LANG = 'English'
+export const currentLocale = Object.keys(LANGUAGES)[0]
 
 export const collectionDirectoryNames: PathNames = {
   blog: {

@@ -1,22 +1,23 @@
 ---
-import { getCollection } from "astro:content"
-import PageLayout from "@/layouts/PageLayout.astro"
-import TopLayout from "@/layouts/TopLayout.astro"
-import BottomLayout from "@/layouts/BottomLayout.astro"
-import Projects from "@/components/react/Projects"
-import { PROJECTS } from "@/consts"
+import { getCollection } from 'astro:content'
+import Projects from '@/components/react/Projects'
+import { PROJECTS } from '@/consts'
+import BottomLayout from '@/layouts/BottomLayout.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import TopLayout from '@/layouts/TopLayout.astro'
 
-const projects = (await getCollection("projects"))
+const projects = (await getCollection('projects'))
   .filter(project => !project.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 
-const tags = [...new Set(projects.flatMap(project => project.data.tags))]
-  .sort((a, b) => a.localeCompare(b))
+const tags = [...new Set(projects.flatMap(project => project.data.tags))].sort(
+  (a, b) => a.localeCompare(b),
+)
 
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
 ---
 
 <PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION} lang={lang}>

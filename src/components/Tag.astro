@@ -1,17 +1,17 @@
 ---
-import Link from "./links/Link.astro";
-import { type CollectionEntry, getEntry } from "astro:content";
+import { type CollectionEntry, getEntry } from 'astro:content'
+import Link from './links/Link.astro'
 
 interface Props {
-  tag?: CollectionEntry<"tags">;
-  slug?: CollectionEntry<"tags">["slug"];
+  tag?: CollectionEntry<'tags'>
+  slug?: CollectionEntry<'tags'>['slug']
 }
-let TagProp = Astro.props.tag;
+let TagProp = Astro.props.tag
 
 if (!TagProp && Astro.props.slug) {
-  TagProp = await getEntry("tags", Astro.props.slug);
+  TagProp = await getEntry('tags', Astro.props.slug)
 }
-const { slug, data } = TagProp!;
+const { slug, data } = TagProp!
 ---
 
 <Link

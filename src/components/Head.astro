@@ -1,29 +1,33 @@
 ---
-import { siteTitle, siteThemeColor } from '@/site';
-import DescriptionMeta from './DescriptionMeta.astro';
-import type { CommonFrontmatter } from '@/blog/types';
+import type { CommonFrontmatter } from '@/blog/types'
+import { siteThemeColor, siteTitle } from '@/site'
+import DescriptionMeta from './DescriptionMeta.astro'
 
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '@/styles/global.css';
-
+import '@/styles/global.css'
 
 interface Props {
-	frontmatter: CommonFrontmatter,
-	includeCanonicalMeta?: boolean
+  frontmatter: CommonFrontmatter
+  includeCanonicalMeta?: boolean
 }
 
-const
-	mode = import.meta.env.MODE,
-	{frontmatter, includeCanonicalMeta = true} = Astro.props,
-	title = frontmatter.title ? `${frontmatter.title} | ${siteTitle}` : siteTitle,
-	description =  frontmatter.description,
-	file =  frontmatter.file,
-	previewImage =  frontmatter.previewImage || '/blog-placeholder-1.jpg',
-	canonicalURL = new URL(frontmatter.canonicalURL || Astro.url.pathname, Astro.site),
-	faviconIco 			= mode === 'development' ? '/favicon-dev.ico' : '/favicon.ico',
-	faviconSVG 			= mode === 'development' ? '/favicon-dev.svg' : '/favicon.svg',
-	appleTouchIcon	= mode === 'development' ? '/apple-touch-icon-dev.png' : '/apple-touch-icon.png';
+const mode = import.meta.env.MODE,
+  { frontmatter, includeCanonicalMeta = true } = Astro.props,
+  title = frontmatter.title ? `${frontmatter.title} | ${siteTitle}` : siteTitle,
+  description = frontmatter.description,
+  file = frontmatter.file,
+  previewImage = frontmatter.previewImage || '/blog-placeholder-1.jpg',
+  canonicalURL = new URL(
+    frontmatter.canonicalURL || Astro.url.pathname,
+    Astro.site,
+  ),
+  faviconIco = mode === 'development' ? '/favicon-dev.ico' : '/favicon.ico',
+  faviconSVG = mode === 'development' ? '/favicon-dev.svg' : '/favicon.svg',
+  appleTouchIcon =
+    mode === 'development'
+      ? '/apple-touch-icon-dev.png'
+      : '/apple-touch-icon.png'
 ---
 
 <!-- Global Metadata -->
