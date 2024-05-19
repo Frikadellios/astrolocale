@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content"
+import PageLayout from "@/layouts/PageLayout.astro"
+import TopLayout from "@/layouts/TopLayout.astro"
+import BottomLayout from "@/layouts/BottomLayout.astro"
+import Blog from "@/components/react/Blog"
+import { BLOG } from "@/consts"
+
+const posts = (await getCollection("blog"))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const tags = [...new Set(posts.flatMap(post => post.data.tags).filter(tag => tag !== undefined))]
+  .sort((a, b) => a.localeCompare(b))
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION} lang={lang}>
+  <TopLayout>
+    <div class="animate page-heading">
+      {BLOG.TITLE}
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div class="animate">
+      <Blog client:load tags={tags.filter(tag => tag !== undefined).map(tag => tag || '')} data={posts} />
+    </div>
+  </BottomLayout>
+</PageLayout>

@@ -1,0 +1,42 @@
+---
+import { getLocalizedPathname } from '@/i18n/utils'
+import type { HTMLAttributes } from 'astro/types'
+
+type Props = HTMLAttributes<'a'>
+
+const {
+  language,
+  class: className,
+  ...props
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+} = Astro.props as { language: string; class: string; [key: string]: any }
+const { pathname } = Astro.url
+
+const lang = Astro.params?.lang || 'en'
+const isActive = language === lang
+
+const href = getLocalizedPathname(
+  pathname,
+  language as 'uk' | 'es' | 'en' | 'de' | 'fr' | 'ru' | 'pl',
+)
+---
+
+
+<a
+  href={href}
+  lang={language}
+  class:list={[className, { active: isActive }]}
+  {...props}
+>
+  <slot />
+</a>
+<style>
+  a {
+    display: inline-block;
+    text-decoration: none;
+  }
+  a.active {
+    font-weight: bolder;
+    text-decoration: underline;
+  }
+</style>
